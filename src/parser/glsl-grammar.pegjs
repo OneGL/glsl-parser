@@ -69,6 +69,8 @@ ATTRIBUTE = token:"attribute" t:terminal { return node('keyword', { token, white
 VARYING = token:"varying" t:terminal { return node('keyword', { token, whitespace: t }); }
 
 // TODO: Look into factoring out the whitespace so these become one keyword rule
+IMPORT = token:"import" t:terminal { return node('keyword', { token, whitespace: t }); }
+FROM = token:"from" t:terminal { return node('keyword', { token, whitespace: t }); }
 CONST = token:"const" t:terminal { return node('keyword', { token, whitespace: t }); }
 BOOL = token:"bool" t:terminal { return node('keyword', { token, whitespace: t }); }
 FLOAT = token:"float" t:terminal { return node('keyword', { token, whitespace: t }); }
@@ -865,6 +867,22 @@ parameter_declaration "parameter declaration"
 // no other qualifiers."
 parameter_qualifier = CONST / IN / OUT / INOUT / memory_qualifier / precision_qualifier
 memory_qualifier = COHERENT / VOLATILE / RESTRICT / READONLY / WRITEONLY
+import_statement = import_:IMPORT name:IDENTIFIER from:FROM path:STRING_LITERAL semi:SEMICOLON {
+  return node('import_statement', { import_, name, from, path, semi });
+}
+
+STRING_LITERAL
+  = '"' chars:CHAR* '"' { return chars.join(''); }
+  / "'" chars:CHAR* "'" { return chars.join(''); }
+
+CHAR
+  = '\\' ["\\/bfnrt]
+  / '\\' 'u' hexDigit hexDigit hexDigit hexDigit
+  / !('"' / "'" / '\\') .
+  / '\\' .
+
+hexDigit
+  = [0-9a-fA-F]
 
 init_declarator_list_statement
   = head:initial_declaration
@@ -1388,7 +1406,7 @@ function_prototype_statement =
 // My solution is to force a separate prototype path separately
 // See https://github.com/peggyjs/peggy/issues/330 for more
 external_declaration
-  = function_prototype_statement / function_definition / declaration_statement
+  = function_prototype_statement / function_definition / declaration_statement / import_statement
 
 function_definition = 
   prototype:function_prototype_new_scope 

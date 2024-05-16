@@ -478,7 +478,17 @@ export interface WhileStatementNode extends BaseNode {
   body: AstNode;
 }
 
+export interface ImportStatementNode extends BaseNode {
+  type: 'import_statement';
+  import_: KeywordNode<'import'>;
+  name: IdentifierNode;
+  from: KeywordNode<'from'>;
+  path: LiteralNode<string>;
+  semi: Semicolon;
+}
+
 export type AstNode =
+  | ImportStatementNode
   | LiteralNode
   | KeywordNode
   | IdentifierNode
