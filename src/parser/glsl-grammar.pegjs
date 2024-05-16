@@ -872,8 +872,8 @@ import_statement = import_:IMPORT name:IDENTIFIER from:FROM path:STRING_LITERAL 
 }
 
 STRING_LITERAL
-  = '"' chars:CHAR* '"' { return chars.join(''); }
-  / "'" chars:CHAR* "'" { return chars.join(''); }
+  = '"' chars:CHAR* '"' { return chars.flat().filter(x => x).join(''); }
+  / "'" chars:CHAR* "'" { return chars.flat().filter(x => x).join(''); }
 
 CHAR
   = '\\' ["\\/bfnrt]

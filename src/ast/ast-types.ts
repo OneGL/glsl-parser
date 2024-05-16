@@ -9,7 +9,7 @@ import { Scope } from '../parser/scope.js';
 // The overall result of parsing, which incldues the AST and scopes
 export interface Program {
   type: 'program';
-  program: (PreprocessorNode | DeclarationStatementNode | FunctionNode)[];
+  program: (PreprocessorNode | DeclarationStatementNode | FunctionNode | ImportStatementNode)[];
   scopes: Scope[];
   wsStart?: string;
   wsEnd?: string;
