@@ -1,6 +1,6 @@
 import { makeGenerator, makeEveryOtherGenerator, } from '../ast/index.js';
 var generators = {
-    import_statement: function (node) { return ''; },
+    import_statement: function (node) { return '// ' + generate(node.import_) + generate(node.name) + generate(node.from) + generate(node.path) + generate(node.semi); },
     program: function (node) { return generate(node.wsStart) + generate(node.program); },
     preprocessor: function (node) { return generate(node.line) + generate(node._); },
     keyword: function (node) { return generate(node.token) + generate(node.whitespace); },

@@ -5,7 +5,7 @@ import {
 } from '../ast/index.js';
 
 const generators: NodeGenerators = {
-  import_statement: (node) => '',
+  import_statement: (node) => '// ' + generate(node.import_) + generate(node.name) + generate(node.from) + generate(node.path) + generate(node.semi),
   program: (node) => generate(node.wsStart) + generate(node.program),
   preprocessor: (node) => generate(node.line) + generate(node._),
   keyword: (node) => generate(node.token) + generate(node.whitespace),
